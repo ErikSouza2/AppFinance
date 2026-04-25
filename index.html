@@ -9,13 +9,28 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap');
         
-        body { font-family: 'Inter', sans-serif; background: #f1f5f9; overflow-x: hidden; }
+        body { font-family: 'Inter', sans-serif; background: #f1f5f9; color: #1e293b; overflow-x: hidden; transition: background 0.3s, color 0.2s; }
+
+        /* Estilos do Modo Escuro */
+        body.dark-mode { background: #0f172a; color: #e2e8f0; }
+        body.dark-mode .glass-card,
+        body.dark-mode .bg-white\/70,
+        body.dark-mode .bg-white\/50 {
+            background: rgba(30, 41, 59, 0.85) !important;
+            backdrop-filter: blur(14px);
+            border-color: rgba(255,255,255,0.08);
+            color: #f1f5f9;
+        }
+        body.dark-mode .text-slate-700, body.dark-mode .text-slate-800 { color: #cbd5e1; }
+        body.dark-mode input { background: #1e293b; border-color: #334155; color: white; }
+        body.dark-mode .bg-slate-100\/70 { background: rgba(51, 65, 85, 0.7); }
 
         .animated-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
             background: radial-gradient(ellipse at 20% 30%, #eef2ff, #e0e7ff, #f8fafc);
             animation: subtleShift 18s ease infinite alternate;
         }
+        body.dark-mode .animated-bg { background: radial-gradient(ellipse at 20% 30%, #0f172a, #020617, #000000); opacity: 0.5; }
 
         @keyframes subtleShift {
             0% { background: radial-gradient(ellipse at 20% 30%, #eef2ff, #e0e7ff, #f8fafc); }
@@ -34,17 +49,14 @@
             box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.08);
         }
 
-        .glass-card-dark {
-            background: rgba(15, 23, 42, 0.92);
-            backdrop-filter: blur(14px);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-        }
-
-        .tab-income-active { background: #10b981; color: white; }
-        .tab-expense-active { background: #f43f5e; color: white; }
+        .glass-card-dark { background: rgba(15, 23, 42, 0.92); backdrop-filter: blur(14px); border: 1px solid rgba(255, 255, 255, 0.12); }
+        .tab-income-active { background: #10b981; color: white; box-shadow: 0 4px 12px rgba(16,185,129,0.3); }
+        .tab-expense-active { background: #f43f5e; color: white; box-shadow: 0 4px 12px rgba(244,63,94,0.3); }
         .hidden { display: none; }
-        
         .pix-gradient-new { background: linear-gradient(135deg, #00D4B5 0%, #20B2AA 100%); }
+        
+        @keyframes popIn { 0% { transform: scale(0.9); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .animate-pop { animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
     </style>
 </head>
 <body>
@@ -60,7 +72,7 @@
                     <i class="ri-rfid-line text-4xl text-white"></i>
                 </div>
                 <h1 class="text-3xl font-extrabold bg-gradient-to-r from-indigo-700 to-slate-800 bg-clip-text text-transparent">Finance</h1>
-                <p class="text-slate-500 text-sm mt-1">O app feito para você</p>
+                <p class="text-slate-500 text-sm mt-1">Gestão inteligente do seu dinheiro</p>
             </div>
 
             <form id="login-form" class="space-y-5">
@@ -68,16 +80,14 @@
                     <label class="block text-[11px] font-semibold text-slate-500 uppercase tracking-wide mb-1 ml-1">Usuário</label>
                     <div class="relative">
                         <i class="ri-user-line absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                        <input type="text" id="username" placeholder="Seu nome" required
-                            class="w-full pl-11 pr-4 py-3.5 bg-white/70 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-indigo-400 outline-none transition-all">
+                        <input type="text" id="username" placeholder="Seu nome" required class="w-full pl-11 pr-4 py-3.5 bg-white/70 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-indigo-400 outline-none transition-all">
                     </div>
                 </div>
                 <div>
                     <label class="block text-[11px] font-semibold text-slate-500 uppercase tracking-wide mb-1 ml-1">Senha</label>
                     <div class="relative">
                         <i class="ri-lock-line absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                        <input type="password" id="password" placeholder="••••••••" required
-                            class="w-full pl-11 pr-4 py-3.5 bg-white/70 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-indigo-400 outline-none transition-all">
+                        <input type="password" id="password" placeholder="••••••••" required class="w-full pl-11 pr-4 py-3.5 bg-white/70 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-indigo-400 outline-none transition-all">
                     </div>
                 </div>
                 
@@ -94,7 +104,7 @@
                     <i class="ri-login-circle-line text-xl"></i> Entrar no App
                 </button>
             </form>
-            <p class="text-center text-[11px] text-slate-400 mt-6">Primeira vez? Digite o usuário e crie sua senha.</p>
+            <p class="text-center text-[11px] text-slate-400 mt-6">✨ Primeira vez? Digite usuário e crie sua senha.</p>
         </div>
     </div>
 </div>
@@ -108,17 +118,22 @@
                 </div>
                 <div>
                     <h1 class="text-xl font-extrabold text-slate-800 tracking-tight">Finance<span class="text-indigo-500">.</span></h1>
-                    <p class="text-[11px] text-slate-500 font-medium italic">O app feito para você | Olá, <span id="user-display-name" class="font-bold text-indigo-600 uppercase"></span></p>
+                    <p class="text-[11px] text-slate-500 font-medium italic">Olá, <span id="user-display-name" class="font-bold text-indigo-600 uppercase"></span></p>
                 </div>
             </div>
-            <button onclick="logout()" class="w-9 h-9 flex items-center justify-center rounded-xl bg-slate-100 text-slate-500 hover:bg-rose-50 hover:text-rose-500 transition-all">
-                <i class="ri-logout-box-r-line text-lg"></i>
-            </button>
+            <div class="flex gap-2">
+                <button id="darkModeToggle" class="w-9 h-9 flex items-center justify-center rounded-xl bg-slate-100 text-slate-600 hover:bg-indigo-100 transition-all">
+                    <i class="ri-moon-line text-lg"></i>
+                </button>
+                <button onclick="logout()" class="w-9 h-9 flex items-center justify-center rounded-xl bg-slate-100 text-slate-500 hover:bg-rose-50 hover:text-rose-500 transition-all">
+                    <i class="ri-logout-box-r-line text-lg"></i>
+                </button>
+            </div>
         </div>
     </header>
 
     <main class="max-w-6xl mx-auto px-4 md:px-6 pb-12">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
             <div class="glass-card-dark rounded-2xl p-6 text-white shadow-xl">
                 <div class="flex justify-between items-start">
                     <div>
@@ -148,13 +163,35 @@
             </div>
         </div>
 
+        <div class="glass-card rounded-2xl p-5 mb-8 border-l-4 border-indigo-500">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="w-full md:w-1/3">
+                    <h3 class="text-sm font-bold text-slate-700 mb-1">🎯 Meta Mensal de Gastos</h3>
+                    <div class="flex gap-2">
+                        <input type="number" id="budget-goal" placeholder="Ex: 1000" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-indigo-400">
+                        <button onclick="saveGoal()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-indigo-700">Salvar</button>
+                    </div>
+                </div>
+                <div class="flex-1 w-full">
+                    <div class="flex justify-between text-[11px] font-bold text-slate-500 mb-1">
+                        <span>📊 PROGRESSO DA META</span>
+                        <span id="goal-percent">0%</span>
+                    </div>
+                    <div class="w-full bg-slate-200 rounded-full h-3 overflow-hidden">
+                        <div id="goal-bar" class="bg-indigo-500 h-full transition-all duration-700" style="width: 0%"></div>
+                    </div>
+                    <p id="goal-message" class="text-[10px] text-slate-400 mt-1 italic"></p>
+                </div>
+            </div>
+        </div>
+
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-7">
             <div class="lg:col-span-5 space-y-6">
                 <div class="bg-white/70 backdrop-blur-lg rounded-3xl border border-white/70 p-6 shadow-xl">
-                    <h3 class="text-xl font-extrabold text-slate-700 flex items-center gap-2 mb-5">Nova movimentação</h3>
+                    <h3 class="text-xl font-extrabold text-slate-700 mb-5">Nova movimentação</h3>
                     <div class="flex gap-2 mb-7 p-1 bg-slate-100/70 rounded-2xl">
-                        <button type="button" onclick="setType('income')" id="type-income" class="flex-1 py-3 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 tab-income-active">Entrada</button>
-                        <button type="button" onclick="setType('expense')" id="type-expense" class="flex-1 py-3 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 text-slate-500">Saída</button>
+                        <button onclick="setType('income')" id="type-income" class="flex-1 py-3 rounded-xl text-sm font-bold tab-income-active transition-all">Entrada</button>
+                        <button onclick="setType('expense')" id="type-expense" class="flex-1 py-3 rounded-xl text-sm font-bold text-slate-500 transition-all">Saída</button>
                     </div>
                     <form id="finance-form" class="space-y-5">
                         <input type="text" id="desc" placeholder="Descrição" required class="w-full px-4 py-3.5 bg-slate-50/80 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-400 outline-none">
@@ -166,10 +203,7 @@
                 <div class="bg-gradient-to-br from-indigo-50 to-purple-50/70 rounded-3xl p-6 border border-indigo-100">
                     <div class="flex items-center gap-3 mb-4">
                         <div class="w-12 h-12 pix-gradient-new rounded-2xl flex items-center justify-center text-white"><i class="ri-qr-code-line text-2xl"></i></div>
-                        <div>
-                            <h4 class="text-base font-extrabold text-indigo-800">Apoie o projeto</h4>
-                            <p class="text-xs text-indigo-500">Finance: o app feito para você</p>
-                        </div>
+                        <div><h4 class="text-base font-extrabold text-indigo-800">Apoie o projeto</h4><p class="text-xs text-indigo-500">O app feito para você</p></div>
                     </div>
                     <div class="bg-white rounded-2xl p-5 flex flex-col items-center gap-3">
                         <img id="pix-qr" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=00020126500014BR.GOV.BCB.PIX0128ligeirinhoflogs225@gmail.com52040000530398654042.505802BR5925Erik Meyrelles dos Santos6009SAO PAULO62140510Q9W1bKox3Q6304FE59" class="w-28 h-28">
@@ -179,9 +213,14 @@
             </div>
 
             <div class="lg:col-span-7">
-                <div class="flex items-center justify-between mb-4 px-1">
+                <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
                     <h3 class="text-xl font-extrabold text-slate-800">Extrato recente</h3>
-                    <button onclick="clearData()" class="text-[11px] font-semibold text-slate-400 hover:text-rose-500">Limpar tudo</button>
+                    <div class="flex gap-2">
+                        <button onclick="filterTransactions('all')" id="filter-all" class="text-xs px-3 py-1.5 rounded-full bg-indigo-100 text-indigo-700 font-semibold">Todos</button>
+                        <button onclick="filterTransactions('income')" id="filter-inc" class="text-xs px-3 py-1.5 rounded-full bg-slate-100 text-slate-600 font-semibold">Entradas</button>
+                        <button onclick="filterTransactions('expense')" id="filter-exp" class="text-xs px-3 py-1.5 rounded-full bg-slate-100 text-slate-600 font-semibold">Saídas</button>
+                        <button onclick="clearData()" class="text-[11px] font-semibold text-slate-400 hover:text-rose-500">Limpar</button>
+                    </div>
                 </div>
                 <div class="rounded-3xl bg-white/50 backdrop-blur-md border border-white/50 shadow-xl p-1 max-h-[540px] overflow-y-auto">
                     <ul id="history-list" class="divide-y divide-slate-100/80"></ul>
@@ -189,6 +228,15 @@
             </div>
         </div>
     </main>
+</div>
+
+<div id="summary-modal" class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm hidden">
+    <div class="glass-card-dark max-w-sm w-full mx-4 p-8 rounded-3xl text-center text-white transform animate-pop shadow-2xl">
+        <div id="summary-icon" class="w-20 h-20 mx-auto rounded-full flex items-center justify-center text-4xl mb-4"></div>
+        <h2 id="summary-title" class="text-2xl font-black mb-2"></h2>
+        <p id="summary-text" class="text-slate-300 text-sm mb-6"></p>
+        <button onclick="closeSummary()" class="w-full py-3.5 bg-white text-slate-900 font-bold rounded-xl">Continuar</button>
+    </div>
 </div>
 
 <script>
@@ -202,52 +250,51 @@
     const expenseEl = document.getElementById('expense');
     const submitBtn = document.getElementById('submit-btn');
     const errorContainer = document.getElementById('login-error-container');
-
     const PIX_CODE = "00020126500014BR.GOV.BCB.PIX0128ligeirinhoflogs225@gmail.com52040000530398654042.505802BR5925Erik Meyrelles dos Santos6009SAO PAULO62140510Q9W1bKox3Q6304FE59";
 
     let transactions = JSON.parse(localStorage.getItem('finance_v2')) || [];
     let registeredUsers = JSON.parse(localStorage.getItem('finance_auth_db')) || {};
+    let monthlyGoal = parseFloat(localStorage.getItem('finance_goal')) || 0;
     let currentType = 'income';
+    let currentFilter = 'all';
 
-    // LÓGICA DE LOGIN COM CRIAÇÃO E VALIDAÇÃO
+    // Inicializar Modo Escuro
+    if (localStorage.getItem('finance_dark') === 'true') document.body.classList.add('dark-mode');
+    document.getElementById('darkModeToggle').addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        localStorage.setItem('finance_dark', document.body.classList.contains('dark-mode'));
+    });
+
+    // Login e Autenticação
     loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const user = document.getElementById('username').value.trim().toLowerCase();
         const pass = document.getElementById('password').value;
-
         if (registeredUsers[user]) {
-            // Se usuário existe, checa a senha
-            if (registeredUsers[user] === pass) {
-                startSession(user);
-            } else {
-                errorContainer.classList.remove('hidden');
-            }
+            if (registeredUsers[user] === pass) startSession(user);
+            else errorContainer.classList.remove('hidden');
         } else {
-            // Se não existe, cria nova conta com essa senha
             registeredUsers[user] = pass;
             localStorage.setItem('finance_auth_db', JSON.stringify(registeredUsers));
-            alert(`Conta criada com sucesso para ${user}! Guarde sua senha.`);
+            alert("Conta criada com sucesso!");
             startSession(user);
         }
     });
 
     function resetPassword() {
         const user = document.getElementById('username').value.trim().toLowerCase();
-        if (confirm(`Deseja realmente criar uma nova senha para o usuário "${user}"? Isso substituirá a senha anterior.`)) {
-            const newPass = prompt("Digite sua nova senha:");
-            if (newPass && newPass.length > 0) {
+        if (confirm(`Redefinir senha para "${user}"?`)) {
+            const newPass = prompt("Nova senha:");
+            if (newPass) {
                 registeredUsers[user] = newPass;
                 localStorage.setItem('finance_auth_db', JSON.stringify(registeredUsers));
-                alert("Senha atualizada! Agora você pode entrar.");
-                errorContainer.classList.add('hidden');
-                document.getElementById('password').value = "";
+                alert("Senha atualizada!");
             }
         }
     }
 
     function startSession(user) {
         sessionStorage.setItem('active_session', user);
-        errorContainer.classList.add('hidden');
         checkAuth();
     }
 
@@ -257,20 +304,18 @@
             loginScreen.classList.add('hidden');
             appContent.classList.remove('hidden');
             document.getElementById('user-display-name').innerText = activeUser;
+            document.getElementById('budget-goal').value = monthlyGoal > 0 ? monthlyGoal : '';
             updateUI();
+            if(transactions.length > 0) showMonthlySummary();
         } else {
             loginScreen.classList.remove('hidden');
             appContent.classList.add('hidden');
-            loginForm.reset();
         }
     }
 
-    function logout() {
-        sessionStorage.removeItem('active_session');
-        checkAuth();
-    }
+    function logout() { sessionStorage.removeItem('active_session'); checkAuth(); }
 
-    // LÓGICA FINANCEIRA
+    // Lógica Financeira
     function setType(type) {
         currentType = type;
         const btnInc = document.getElementById('type-income');
@@ -279,13 +324,20 @@
             btnInc.className = 'flex-1 py-3 rounded-xl text-sm font-bold transition-all tab-income-active';
             btnExp.className = 'flex-1 py-3 rounded-xl text-sm font-bold transition-all text-slate-500';
             submitBtn.innerText = 'Confirmar Entrada';
-            submitBtn.className = 'w-full font-bold py-3.5 rounded-xl bg-emerald-500 text-white shadow-md active:scale-95 transition-all';
+            submitBtn.className = 'w-full font-bold py-3.5 rounded-xl bg-emerald-500 text-white shadow-md';
         } else {
             btnExp.className = 'flex-1 py-3 rounded-xl text-sm font-bold transition-all tab-expense-active';
             btnInc.className = 'flex-1 py-3 rounded-xl text-sm font-bold transition-all text-slate-500';
             submitBtn.innerText = 'Confirmar Saída';
-            submitBtn.className = 'w-full font-bold py-3.5 rounded-xl bg-rose-500 text-white shadow-md active:scale-95 transition-all';
+            submitBtn.className = 'w-full font-bold py-3.5 rounded-xl bg-rose-500 text-white shadow-md';
         }
+    }
+
+    function saveGoal() {
+        monthlyGoal = parseFloat(document.getElementById('budget-goal').value) || 0;
+        localStorage.setItem('finance_goal', monthlyGoal);
+        updateUI();
+        alert("Meta atualizada!");
     }
 
     function formatCurrency(v) { return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
@@ -299,30 +351,57 @@
         incomeEl.innerText = formatCurrency(totalIn);
         expenseEl.innerText = formatCurrency(totalOut);
 
-        historyList.innerHTML = '';
-        if (transactions.length === 0) {
-            historyList.innerHTML = `<div class="text-center py-10 text-slate-400 text-sm">Vazio</div>`;
-        } else {
-            [...transactions].reverse().forEach((t, idx) => {
-                const isIncome = t.amount > 0;
-                const li = document.createElement('li');
-                li.className = 'flex justify-between items-center p-4 group hover:bg-white/50 transition-all';
-                li.innerHTML = `
-                    <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-full ${isIncome ? 'bg-emerald-100 text-emerald-600' : 'bg-rose-100 text-rose-600'} flex items-center justify-center">
-                            <i class="${isIncome ? 'ri-add-line' : 'ri-subtract-line'}"></i>
-                        </div>
-                        <div>
-                            <p class="text-sm font-bold text-slate-700">${t.desc}</p>
-                            <p class="text-[10px] text-slate-400">${t.date}</p>
-                        </div>
-                    </div>
-                    <span class="text-sm font-extrabold ${isIncome ? 'text-emerald-600' : 'text-rose-600'}">${formatCurrency(t.amount)}</span>
-                `;
-                historyList.appendChild(li);
-            });
-        }
+        // Barra de Progresso da Meta
+        const goalBar = document.getElementById('goal-bar');
+        const goalPercentText = document.getElementById('goal-percent');
+        const goalMsg = document.getElementById('goal-message');
+        
+        if (monthlyGoal > 0) {
+            let percent = (totalOut / monthlyGoal) * 100;
+            goalPercentText.innerText = Math.round(percent) + "%";
+            goalBar.style.width = Math.min(percent, 100) + "%";
+            if (percent >= 100) { goalBar.className = "bg-rose-500 h-full"; goalMsg.innerText = "⚠️ Meta excedida!"; }
+            else if (percent > 80) { goalBar.className = "bg-amber-500 h-full"; goalMsg.innerText = "Atenção ao limite."; }
+            else { goalBar.className = "bg-indigo-500 h-full"; goalMsg.innerText = "Tudo sob controle. 💪"; }
+        } else { goalBar.style.width = "0%"; goalPercentText.innerText = "0%"; goalMsg.innerText = "Defina uma meta para acompanhar."; }
+
+        renderHistory();
         localStorage.setItem('finance_v2', JSON.stringify(transactions));
+    }
+
+    function renderHistory() {
+        let filtered = [...transactions];
+        if (currentFilter === 'income') filtered = filtered.filter(t => t.amount > 0);
+        else if (currentFilter === 'expense') filtered = filtered.filter(t => t.amount < 0);
+        
+        historyList.innerHTML = '';
+        if (filtered.length === 0) {
+            historyList.innerHTML = `<div class="text-center py-10 text-slate-400 text-sm">Vazio</div>`;
+            return;
+        }
+        [...filtered].reverse().forEach((t) => {
+            const isIncome = t.amount > 0;
+            const li = document.createElement('li');
+            li.className = 'flex justify-between items-center p-4 hover:bg-white/10 transition-all';
+            li.innerHTML = `
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full ${isIncome ? 'bg-emerald-100 text-emerald-600' : 'bg-rose-100 text-rose-600'} flex items-center justify-center">
+                        <i class="${isIncome ? 'ri-add-line' : 'ri-subtract-line'}"></i>
+                    </div>
+                    <div><p class="text-sm font-bold">${t.desc}</p><p class="text-[10px] text-slate-400">${t.date}</p></div>
+                </div>
+                <span class="text-sm font-extrabold ${isIncome ? 'text-emerald-600' : 'text-rose-600'}">${formatCurrency(t.amount)}</span>
+            `;
+            historyList.appendChild(li);
+        });
+    }
+
+    function filterTransactions(type) {
+        currentFilter = type;
+        const btns = {all: 'filter-all', income: 'filter-inc', expense: 'filter-exp'};
+        Object.values(btns).forEach(id => document.getElementById(id).className = 'text-xs px-3 py-1.5 rounded-full bg-slate-100 text-slate-600 font-semibold');
+        document.getElementById(btns[type]).className = 'text-xs px-3 py-1.5 rounded-full bg-indigo-100 text-indigo-700 font-semibold shadow-sm';
+        renderHistory();
     }
 
     financeForm.addEventListener('submit', (e) => {
@@ -330,12 +409,23 @@
         let amount = parseFloat(document.getElementById('amount').value);
         const desc = document.getElementById('desc').value;
         if (currentType === 'expense') amount = -amount;
-        
         transactions.push({ desc, amount, date: new Date().toLocaleDateString('pt-BR') });
         updateUI();
         financeForm.reset();
     });
 
+    function showMonthlySummary() {
+        const totalOut = transactions.filter(t => t.amount < 0).reduce((a, b) => a + Math.abs(b.amount), 0);
+        if (monthlyGoal <= 0) return;
+        const isSafe = totalOut <= monthlyGoal;
+        document.getElementById('summary-modal').classList.remove('hidden');
+        document.getElementById('summary-icon').innerHTML = isSafe ? '<i class="ri-trophy-line"></i>' : '<i class="ri-alarm-warning-line"></i>';
+        document.getElementById('summary-icon').className = `w-20 h-20 mx-auto rounded-full flex items-center justify-center text-4xl mb-4 ${isSafe ? 'bg-emerald-500' : 'bg-rose-500'}`;
+        document.getElementById('summary-title').innerText = isSafe ? 'Excelente!' : 'Meta Excedida';
+        document.getElementById('summary-text').innerText = isSafe ? `Você está dentro da sua meta de ${formatCurrency(monthlyGoal)}.` : `Seus gastos de ${formatCurrency(totalOut)} ultrapassaram o limite.`;
+    }
+
+    function closeSummary() { document.getElementById('summary-modal').classList.add('hidden'); }
     function clearData() { if(confirm("Zerar extrato?")) { transactions = []; updateUI(); } }
     function copyPix() { navigator.clipboard.writeText(PIX_CODE); alert("Copiado!"); }
 
