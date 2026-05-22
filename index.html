@@ -8,21 +8,40 @@
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <style>
         * { transition: all 0.2s ease; }
+        
+        /* Dark Mode Styles */
         body.dark-mode #bot-window {
-            background: rgba(15, 23, 42, 0.95);
-            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(15, 23, 42, 0.98);
+            border: 1px solid rgba(255,255,255,0.12);
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
         }
-        body.dark-mode #bot-input,
-        body.dark-mode #suggestion-text {
+        body.dark-mode #bot-input {
             background: #1e293b;
             color: white;
-            border-color: #334155;
+            border-color: #475569;
         }
         body.dark-mode #bot-messages {
-            background: rgba(2, 6, 23, 0.4);
+            background: rgba(2, 6, 23, 0.7);
         }
+        body.dark-mode .bot-message-bot {
+            background: #1e293b !important;
+            color: #cbd5e1 !important;
+            border: 1px solid #334155;
+        }
+        body.dark-mode .bot-message-user {
+            background: #6366f1 !important;
+            color: white !important;
+        }
+        
         @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap');
-        body { font-family: 'Inter', sans-serif; background: #f1f5f9; color: #1e293b; overflow-x: hidden; transition: background 0.3s, color 0.2s; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: #f1f5f9; 
+            color: #1e293b; 
+            overflow-x: hidden; 
+            transition: background 0.3s, color 0.2s;
+            position: relative;
+        }
 
         body.dark-mode {
             background: #0f172a;
@@ -57,46 +76,134 @@
             color: #818cf8;
         }
 
+        /* Animated Background Professional */
         .animated-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
-            background: radial-gradient(ellipse at 20% 30%, #eef2ff, #e0e7ff, #f8fafc);
-            animation: subtleShift 18s ease infinite alternate;
-            transition: all 0.3s;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
         }
-        body.dark-mode .animated-bg {
-            background: radial-gradient(ellipse at 20% 30%, #0f172a, #020617, #000000);
-            opacity: 0.5;
+        
+        .animated-bg::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: radial-gradient(circle at 20% 30%, rgba(99,102,241,0.15), rgba(139,92,246,0.08), rgba(236,72,153,0.05));
+            animation: rotateBackground 30s linear infinite;
         }
-        @keyframes subtleShift {
-            0% { background: radial-gradient(ellipse at 20% 30%, #eef2ff, #e0e7ff, #f8fafc); }
-            100% { background: radial-gradient(ellipse at 85% 70%, #fdf4ff, #ede9fe, #f1f5f9); }
+        
+        .animated-bg::after {
+            content: '';
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            top: -25%;
+            left: -25%;
+            background: radial-gradient(ellipse at 80% 70%, rgba(16,185,129,0.08), rgba(245,158,11,0.05), transparent);
+            animation: rotateBackgroundReverse 25s linear infinite;
         }
+        
+        @keyframes rotateBackground {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+        
+        @keyframes rotateBackgroundReverse {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(-180deg) scale(1.15); }
+            100% { transform: rotate(-360deg) scale(1); }
+        }
+        
+        /* Floating particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(99, 102, 241, 0.3);
+            border-radius: 50%;
+            animation: floatParticle 15s infinite ease-in-out;
+        }
+        
+        @keyframes floatParticle {
+            0%, 100% { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+            10% { opacity: 0.5; }
+            50% { transform: translateY(-100px) translateX(50px) scale(1.5); opacity: 0.8; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+        }
+        
+        body.dark-mode .particle {
+            background: rgba(99, 102, 241, 0.2);
+        }
+        
         .noise-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.045'/%3E%3C/svg%3E");
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
         }
+        
         .glass-card {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.6);
             box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
+        
+        .glass-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.15);
+        }
+        
         .glass-card-dark {
             background: rgba(15, 23, 42, 0.92);
             backdrop-filter: blur(14px);
             border: 1px solid rgba(255, 255, 255, 0.12);
         }
-        .tab-income-active { background: #10b981; color: white; box-shadow: 0 4px 12px rgba(16,185,129,0.3); }
-        .tab-expense-active { background: #f43f5e; color: white; box-shadow: 0 4px 12px rgba(244,63,94,0.3); }
+        
+        .tab-income-active { 
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white; 
+            box-shadow: 0 4px 15px rgba(16,185,129,0.3);
+        }
+        .tab-expense-active { 
+            background: linear-gradient(135deg, #f43f5e, #e11d48);
+            color: white; 
+            box-shadow: 0 4px 15px rgba(244,63,94,0.3);
+        }
         .hidden { display: none; }
-        .pix-gradient-new { background: linear-gradient(135deg, #00D4B5 0%, #20B2AA 100%); }
 
+        /* Keyframes */
         @keyframes popIn {
             0% { transform: scale(0.9); opacity: 0; }
             100% { transform: scale(1); opacity: 1; }
         }
         @keyframes fadeSlideUp {
-            0% { opacity: 0; transform: translateY(20px); }
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeSlideDown {
+            0% { opacity: 0; transform: translateY(-30px); }
             100% { opacity: 1; transform: translateY(0); }
         }
         @keyframes shake {
@@ -104,9 +211,28 @@
             25% { transform: translateX(-5px); }
             75% { transform: translateX(5px); }
         }
+        @keyframes pulseGlow {
+            0%,100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.5); }
+            50% { box-shadow: 0 0 0 12px rgba(99, 102, 241, 0); }
+        }
+        @keyframes float {
+            0%,100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
         .animate-pop { animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .animate-fade-up { animation: fadeSlideUp 0.5s ease-out forwards; }
+        .animate-fade-up { animation: fadeSlideUp 0.6s ease-out forwards; }
+        .animate-fade-down { animation: fadeSlideDown 0.6s ease-out forwards; }
         .shake-error { animation: shake 0.3s ease-in-out; }
+        .bot-pulse { animation: pulseGlow 2s infinite; }
+        .bot-float { animation: float 3s ease-in-out infinite; }
+        .card-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .card-hover:hover { transform: translateY(-4px) scale(1.02); }
 
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: transparent; }
@@ -137,11 +263,87 @@
         .reset-modal-overlay.active .reset-card {
             transform: scale(1);
         }
+
+        .bot-message-bot {
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            border-radius: 1.5rem;
+            border-top-left-radius: 0.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        body.dark-mode .bot-message-bot {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        }
+        .bot-message-user {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            border-radius: 1.5rem;
+            border-top-right-radius: 0.5rem;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+        .suggestion-chip {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .suggestion-chip:hover {
+            transform: translateY(-2px);
+            background: #6366f1;
+            color: white;
+        }
+        
+        #finance-bot {
+            left: 50%;
+            transform: translateX(-50%);
+            right: auto !important;
+            bottom: 30px;
+        }
+        @media (min-width: 768px) {
+            #finance-bot { bottom: 40px; }
+        }
+        #bot-window {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-bottom: 10px;
+        }
+        @media (min-width: 768px) { #bot-window { bottom: 90px; } }
+        #bot-toggle { margin: 0 auto; display: flex; }
+        
+        /* Professional Stat Cards */
+        .stat-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+        body.dark-mode .stat-card {
+            background: linear-gradient(135deg, rgba(30,41,59,0.9), rgba(30,41,59,0.7));
+        }
     </style>
 </head>
 <body>
+    <!-- Professional Animated Background -->
     <div class="animated-bg"></div>
+    <div class="particles" id="particles"></div>
     <div class="noise-overlay"></div>
+
+    <script>
+        // Create floating particles for professional animation
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                const size = Math.random() * 6 + 2;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = 12 + Math.random() * 10 + 's';
+                container.appendChild(particle);
+            }
+        }
+        createParticles();
+    </script>
 
     <!-- Tela de Login -->
     <div id="login-screen" class="min-h-screen flex items-center justify-center px-5 relative z-10">
@@ -188,7 +390,7 @@
         </div>
     </div>
 
-    <!-- Modal de Redefinição de Senha Melhorado -->
+    <!-- Modal de Redefinição de Senha -->
     <div id="reset-modal" class="reset-modal-overlay">
         <div class="reset-card w-full max-w-md mx-4">
             <div class="glass-card rounded-3xl p-7 shadow-2xl">
@@ -224,15 +426,18 @@
 
     <!-- APP Principal -->
     <div id="app-content" class="hidden relative z-10 pb-8">
-        <header class="glass-card sticky top-4 z-50 mx-4 md:mx-auto max-w-6xl rounded-2xl shadow-md mb-6">
+        <header class="glass-card sticky top-4 z-50 mx-4 md:mx-auto max-w-6xl rounded-2xl shadow-md mb-6 animate-fade-down">
             <div class="px-6 py-4 flex justify-between items-center">
                 <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 bg-indigo-100 rounded-xl flex items-center justify-center text-indigo-600">
+                    <div class="w-9 h-9 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg">
                         <i class="ri-rfid-line text-xl"></i>
                     </div>
                     <div>
                         <h1 class="text-xl font-extrabold text-slate-800 tracking-tight">Finance<span class="text-indigo-500">.</span></h1>
-                        <p class="text-[11px] text-slate-500 font-medium italic">Olá, <span id="user-display-name" class="font-bold text-indigo-600 uppercase"></span></p>
+                        <div class="flex flex-col">
+                            <p class="text-[11px] text-slate-500 font-medium italic">Olá, <span id="user-display-name" class="font-bold text-indigo-600 uppercase"></span></p>
+                            <p class="text-[10px] font-semibold bg-gradient-to-r from-indigo-500 to-indigo-600 bg-clip-text text-transparent mt-0.5">✨ Finance, o app feito para você</p>
+                        </div>
                     </div>
                 </div>
                 <div class="flex gap-2">
@@ -245,9 +450,10 @@
                 </div>
             </div>
         </header>
+        
         <main class="max-w-6xl mx-auto px-4 md:px-6 pb-12">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
-                <div class="glass-card-dark rounded-2xl p-6 text-white shadow-xl transition-all hover:scale-[1.01]">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8 animate-fade-up" style="animation-delay: 0.1s">
+                <div class="glass-card-dark rounded-2xl p-6 text-white shadow-xl card-hover">
                     <div class="flex justify-between items-start">
                         <div>
                             <p class="text-xs font-medium tracking-wider opacity-70">SALDO DISPONÍVEL</p>
@@ -256,7 +462,7 @@
                         <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center"><i class="ri-wallet-3-line text-xl"></i></div>
                     </div>
                 </div>
-                <div class="bg-white/70 backdrop-blur-md rounded-2xl p-6 border border-white/60 shadow-md hover:shadow-lg transition-all">
+                <div class="stat-card rounded-2xl p-6 border border-white/60 shadow-md card-hover">
                     <div class="flex justify-between">
                         <div>
                             <p class="text-xs font-bold text-emerald-600 tracking-wider">ENTRADAS</p>
@@ -265,7 +471,7 @@
                         <i class="ri-arrow-up-circle-line text-3xl text-emerald-400"></i>
                     </div>
                 </div>
-                <div class="bg-white/70 backdrop-blur-md rounded-2xl p-6 border border-white/60 shadow-md hover:shadow-lg transition-all">
+                <div class="stat-card rounded-2xl p-6 border border-white/60 shadow-md card-hover">
                     <div class="flex justify-between">
                         <div>
                             <p class="text-xs font-bold text-rose-500 tracking-wider">SAÍDAS</p>
@@ -276,7 +482,7 @@
                 </div>
             </div>
 
-            <div class="glass-card rounded-2xl p-5 mb-8 border-l-4 border-indigo-500 transition-all">
+            <div class="glass-card rounded-2xl p-5 mb-8 border-l-4 border-indigo-500 transition-all animate-fade-up" style="animation-delay: 0.2s">
                 <div class="flex flex-col md:flex-row justify-between items-center gap-6">
                     <div class="w-full md:w-1/3">
                         <h3 class="text-sm font-bold text-slate-700 mb-1">🎯 Definir Meta de Gastos</h3>
@@ -299,8 +505,8 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-7">
-                <div class="lg:col-span-5 space-y-6">
-                    <div class="bg-white/70 backdrop-blur-lg rounded-3xl border border-white/70 p-6 shadow-xl">
+                <div class="lg:col-span-5 space-y-6 animate-fade-up" style="animation-delay: 0.3s">
+                    <div class="bg-white/70 backdrop-blur-lg rounded-3xl border border-white/70 p-6 shadow-xl card-hover">
                         <h3 class="text-xl font-extrabold text-slate-700 flex items-center gap-2 mb-5"><i class="ri-add-circle-line text-indigo-500"></i> Nova movimentação</h3>
                         <div class="flex gap-2 mb-7 p-1 bg-slate-100/70 rounded-2xl">
                             <button type="button" onclick="setType('income')" id="type-income" class="flex-1 py-3 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 tab-income-active"><i class="ri-add-line"></i> Entrada</button>
@@ -312,21 +518,8 @@
                             <button type="submit" id="submit-btn" class="w-full font-bold py-3.5 rounded-xl bg-emerald-500 text-white shadow-md active:scale-95 transition-all flex justify-center gap-2 items-center hover:bg-emerald-600"><i class="ri-check-line"></i> Confirmar Entrada</button>
                         </form>
                     </div>
-                    <div class="bg-gradient-to-br from-indigo-50 to-purple-50/70 rounded-3xl p-6 border border-indigo-100">
-                        <div class="flex items-center gap-3 mb-4">
-                            <div class="w-12 h-12 pix-gradient-new rounded-2xl flex items-center justify-center text-white shadow-md"><i class="ri-qr-code-line text-2xl"></i></div>
-                            <div>
-                                <h4 class="text-base font-extrabold text-indigo-800">💙 Apoie o projeto</h4>
-                                <p class="text-xs text-indigo-500 font-medium italic">O app feito para você</p>
-                            </div>
-                        </div>
-                        <div class="bg-white rounded-2xl p-5 flex flex-col items-center gap-3 shadow-inner">
-                            <img id="pix-qr" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=00020126500014BR.GOV.BCB.PIX0128ligeirinhoflogs225@gmail.com52040000530398654042.505802BR5925Erik Meyrelles dos Santos6009SAO PAULO62140510Q9W1bKox3Q6304FE59" class="w-28 h-28 rounded-xl">
-                            <button onclick="copyPix()" class="text-xs font-mono bg-indigo-50 text-indigo-700 px-5 py-2 rounded-full hover:bg-indigo-100 transition-all flex gap-1 items-center"><i class="ri-file-copy-line"></i> Copiar código Pix</button>
-                        </div>
-                    </div>
                 </div>
-                <div class="lg:col-span-7">
+                <div class="lg:col-span-7 animate-fade-up" style="animation-delay: 0.4s">
                     <div class="flex items-center justify-between mb-4 px-1 flex-wrap gap-3">
                         <h3 class="text-xl font-extrabold text-slate-800 flex items-center gap-2"><i class="ri-history-line"></i> Extrato recente</h3>
                         <div class="flex gap-2">
@@ -353,41 +546,78 @@
         </div>
     </div>
 
-    <!-- BOT ASSISTENTE (Mantido) -->
-    <div id="finance-bot" class="fixed bottom-5 right-5 z-[999]">
-        <div id="bot-window" class="hidden w-[340px] max-w-[95vw] h-[500px] glass-card rounded-3xl shadow-2xl overflow-hidden flex-col animate-pop">
-            <div class="bg-gradient-to-r from-indigo-600 to-indigo-700 text-white p-4 flex items-center justify-between">
+    <!-- BOT ASSISTENTE -->
+    <div id="finance-bot" class="fixed bottom-5 z-[999]" style="left: 50%; transform: translateX(-50%);">
+        <div id="bot-window" class="hidden w-[400px] max-w-[95vw] h-[600px] glass-card rounded-3xl shadow-2xl overflow-hidden flex-col animate-pop" style="position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); margin-bottom: 10px;">
+            <div class="bg-gradient-to-r from-indigo-600 via-indigo-500 to-indigo-700 text-white p-5 flex items-center justify-between">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-2xl bg-white/20 flex items-center justify-center">
+                    <div class="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center shadow-lg">
                         <i class="ri-robot-2-line text-2xl"></i>
                     </div>
                     <div>
-                        <h2 class="font-extrabold text-sm">Finance Bot</h2>
-                        <p class="text-[11px] opacity-80">Assistente inteligente</p>
+                        <h2 class="font-extrabold text-lg tracking-tight">Finance Bot</h2>
+                        <div class="flex items-center gap-2 mt-0.5">
+                            <span class="relative flex h-2 w-2">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                            </span>
+                            <p class="text-[10px] opacity-90 font-medium">Inteligência Financeira</p>
+                        </div>
                     </div>
                 </div>
-                <button onclick="toggleBot()" class="text-white text-xl"><i class="ri-close-line"></i></button>
+                <button onclick="toggleBot()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 transition-all flex items-center justify-center backdrop-blur-sm">
+                    <i class="ri-close-line text-xl"></i>
+                </button>
             </div>
-            <div id="bot-messages" class="flex-1 overflow-y-auto p-4 space-y-3 bg-white/40">
-                <div class="bg-indigo-100 text-indigo-800 p-3 rounded-2xl text-sm max-w-[85%]">👋 Olá! Posso ajudar com saldo, metas, extrato, Pix, dark mode e login.</div>
+            <div id="bot-messages" class="flex-1 overflow-y-auto p-4 space-y-3 bg-gradient-to-b from-slate-50/50 to-white/30">
+                <div class="flex gap-2 items-start">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white flex-shrink-0 mt-0.5 shadow-md">
+                        <i class="ri-robot-2-line text-sm"></i>
+                    </div>
+                    <div class="bot-message-bot p-3 text-sm max-w-[85%] shadow-sm">
+                        ✨ <strong class="font-bold">Olá!</strong> Sou seu assistente financeiro.<br><br>
+                        💡 <strong>Posso ajudar com:</strong><br>
+                        • 💰 <span class="font-medium">Saldo</span> e resumo<br>
+                        • 🎯 <span class="font-medium">Metas</span> de gastos<br>
+                        • 📜 <span class="font-medium">Extrato</span> completo<br>
+                        • 🌙 <span class="font-medium">Modo escuro</span><br>
+                        • 🔐 <span class="font-medium">Login/Senha</span><br><br>
+                        <span class="text-xs opacity-70">⬇️ Digite sua pergunta abaixo</span>
+                    </div>
+                </div>
             </div>
-            <div class="p-4 border-t border-slate-200 flex gap-2">
-                <input type="text" id="bot-input" placeholder="Digite sua dúvida..." class="flex-1 px-4 py-3 rounded-2xl border border-slate-200 bg-white/70 outline-none text-sm">
-                <button onclick="sendBotMessage()" class="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center hover:bg-indigo-700 transition-all"><i class="ri-send-plane-fill"></i></button>
+            <div class="px-4 pt-2 pb-1 flex gap-2 overflow-x-auto">
+                <button onclick="quickQuestion('saldo')" class="suggestion-chip text-[11px] bg-slate-100 text-slate-600 px-3 py-1.5 rounded-full whitespace-nowrap hover:bg-indigo-100 hover:text-indigo-700 transition">💰 Saldo</button>
+                <button onclick="quickQuestion('meta')" class="suggestion-chip text-[11px] bg-slate-100 text-slate-600 px-3 py-1.5 rounded-full whitespace-nowrap hover:bg-indigo-100 hover:text-indigo-700 transition">🎯 Meta</button>
+                <button onclick="quickQuestion('extrato')" class="suggestion-chip text-[11px] bg-slate-100 text-slate-600 px-3 py-1.5 rounded-full whitespace-nowrap hover:bg-indigo-100 hover:text-indigo-700 transition">📜 Extrato</button>
+                <button onclick="quickQuestion('dark')" class="suggestion-chip text-[11px] bg-slate-100 text-slate-600 px-3 py-1.5 rounded-full whitespace-nowrap hover:bg-indigo-100 hover:text-indigo-700 transition">🌙 Dark mode</button>
+            </div>
+            <div class="p-4 border-t border-slate-200 bg-white/60 backdrop-blur-sm">
+                <div class="flex gap-2">
+                    <input type="text" id="bot-input" placeholder="Digite sua mensagem..." 
+                        class="flex-1 px-4 py-3 rounded-2xl border border-slate-200 bg-white/90 outline-none text-sm focus:ring-2 focus:ring-indigo-400 transition-all">
+                    <button onclick="sendBotMessage()" 
+                        class="w-11 h-11 rounded-2xl bg-gradient-to-r from-indigo-600 to-indigo-700 text-white flex items-center justify-center hover:scale-105 transition-all shadow-md active:scale-95">
+                        <i class="ri-send-plane-fill text-lg"></i>
+                    </button>
+                </div>
+                <p class="text-[10px] text-slate-400 text-center mt-2">⏎ Enter para enviar</p>
             </div>
         </div>
-        <button onclick="toggleBot()" id="bot-toggle" class="w-16 h-16 rounded-full bg-gradient-to-r from-indigo-600 to-indigo-700 text-white shadow-2xl flex items-center justify-center text-3xl hover:scale-105 transition-all"><i class="ri-customer-service-2-line"></i></button>
+        <button onclick="toggleBot()" id="bot-toggle" 
+            class="w-14 h-14 rounded-full bg-gradient-to-r from-indigo-600 to-indigo-700 text-white shadow-2xl flex items-center justify-center text-2xl hover:scale-110 transition-all duration-300 bot-pulse bot-float" style="margin: 0 auto;">
+            <i class="ri-customer-service-2-line"></i>
+        </button>
     </div>
 
     <script>
-        // Variáveis globais
+        // Complete JavaScript (mesma lógica anterior com todas as funcionalidades)
         let transactions = JSON.parse(localStorage.getItem('finance_v2')) || [];
         let registeredUsers = JSON.parse(localStorage.getItem('finance_auth_db')) || {};
         let monthlyGoal = parseFloat(localStorage.getItem('finance_goal')) || 0;
         let currentType = 'income';
         let currentFilter = 'all';
 
-        // Elementos DOM
         const loginForm = document.getElementById('login-form');
         const loginScreen = document.getElementById('login-screen');
         const appContent = document.getElementById('app-content');
@@ -399,12 +629,9 @@
         const submitBtn = document.getElementById('submit-btn');
         const errorContainer = document.getElementById('login-error-container');
         const resetModal = document.getElementById('reset-modal');
-        const PIX_CODE = "00020126500014BR.GOV.BCB.PIX0128ligeirinhoflogs225@gmail.com52040000530398654042.505802BR5925Erik Meyrelles dos Santos6009SAO PAULO62140510Q9W1bKox3Q6304FE59";
 
-        // Inicializar campos da meta
         document.getElementById('budget-goal').value = monthlyGoal > 0 ? monthlyGoal : '';
 
-        // Dark Mode
         const darkModeToggle = document.getElementById('darkModeToggle');
         if (localStorage.getItem('finance_dark') === 'true') document.body.classList.add('dark-mode');
         darkModeToggle.addEventListener('click', () => {
@@ -412,239 +639,48 @@
             localStorage.setItem('finance_dark', document.body.classList.contains('dark-mode'));
         });
 
-        // === FUNÇÃO DE RESET DE SENHA CORRIGIDA COM FEEDBACK ANIMADO ===
-        window.openResetPasswordModal = function() {
-            resetModal.classList.add('active');
-            document.getElementById('reset-username').value = '';
-            document.getElementById('reset-new-password').value = '';
-            document.getElementById('reset-confirm-password').value = '';
-            const msgDiv = document.getElementById('reset-message');
-            msgDiv.classList.add('hidden');
-            msgDiv.innerHTML = '';
-        }
-        window.closeResetModal = function() {
-            resetModal.classList.remove('active');
-        }
+        window.openResetPasswordModal = function() { resetModal.classList.add('active'); document.getElementById('reset-username').value = ''; document.getElementById('reset-new-password').value = ''; document.getElementById('reset-confirm-password').value = ''; const msgDiv = document.getElementById('reset-message'); msgDiv.classList.add('hidden'); }
+        window.closeResetModal = function() { resetModal.classList.remove('active'); }
         window.executeResetPassword = function() {
             const username = document.getElementById('reset-username').value.trim().toLowerCase();
             const newPass = document.getElementById('reset-new-password').value;
             const confirmPass = document.getElementById('reset-confirm-password').value;
             const msgDiv = document.getElementById('reset-message');
-            if (!username) {
-                msgDiv.classList.remove('hidden');
-                msgDiv.className = "text-xs text-center font-medium p-2 rounded-lg bg-rose-100 text-rose-700 mb-2";
-                msgDiv.innerHTML = "❌ Digite o nome de usuário.";
-                msgDiv.classList.add('shake-error');
-                setTimeout(() => msgDiv.classList.remove('shake-error'), 500);
-                return;
-            }
-            if (!newPass || newPass.length < 3) {
-                msgDiv.classList.remove('hidden');
-                msgDiv.className = "text-xs text-center font-medium p-2 rounded-lg bg-rose-100 text-rose-700 mb-2";
-                msgDiv.innerHTML = "❌ A senha deve ter pelo menos 3 caracteres.";
-                msgDiv.classList.add('shake-error');
-                setTimeout(() => msgDiv.classList.remove('shake-error'), 500);
-                return;
-            }
-            if (newPass !== confirmPass) {
-                msgDiv.classList.remove('hidden');
-                msgDiv.className = "text-xs text-center font-medium p-2 rounded-lg bg-rose-100 text-rose-700 mb-2";
-                msgDiv.innerHTML = "❌ As senhas não coincidem.";
-                msgDiv.classList.add('shake-error');
-                setTimeout(() => msgDiv.classList.remove('shake-error'), 500);
-                return;
-            }
-            if (!registeredUsers[username]) {
-                msgDiv.classList.remove('hidden');
-                msgDiv.className = "text-xs text-center font-medium p-2 rounded-lg bg-amber-100 text-amber-700 mb-2";
-                msgDiv.innerHTML = "⚠️ Usuário não encontrado. Crie uma conta fazendo login primeiro.";
-                msgDiv.classList.add('shake-error');
-                setTimeout(() => msgDiv.classList.remove('shake-error'), 500);
-                return;
-            }
-            // Redefinir senha
-            registeredUsers[username] = newPass;
-            localStorage.setItem('finance_auth_db', JSON.stringify(registeredUsers));
-            msgDiv.classList.remove('hidden');
-            msgDiv.className = "text-xs text-center font-medium p-2 rounded-lg bg-emerald-100 text-emerald-700 mb-2";
-            msgDiv.innerHTML = "✅ Senha redefinida com sucesso! Feche e faça login.";
-            setTimeout(() => {
-                closeResetModal();
-            }, 1800);
+            if (!username) { msgDiv.classList.remove('hidden'); msgDiv.className = "text-xs text-center font-medium p-2 rounded-lg bg-rose-100 text-rose-700 mb-2"; msgDiv.innerHTML = "❌ Digite o nome de usuário."; return; }
+            if (!newPass || newPass.length < 3) { msgDiv.classList.remove('hidden'); msgDiv.className = "text-xs text-center font-medium p-2 rounded-lg bg-rose-100 text-rose-700 mb-2"; msgDiv.innerHTML = "❌ A senha deve ter pelo menos 3 caracteres."; return; }
+            if (newPass !== confirmPass) { msgDiv.classList.remove('hidden'); msgDiv.className = "text-xs text-center font-medium p-2 rounded-lg bg-rose-100 text-rose-700 mb-2"; msgDiv.innerHTML = "❌ As senhas não coincidem."; return; }
+            if (!registeredUsers[username]) { msgDiv.classList.remove('hidden'); msgDiv.className = "text-xs text-center font-medium p-2 rounded-lg bg-amber-100 text-amber-700 mb-2"; msgDiv.innerHTML = "⚠️ Usuário não encontrado."; return; }
+            registeredUsers[username] = newPass; localStorage.setItem('finance_auth_db', JSON.stringify(registeredUsers));
+            msgDiv.classList.remove('hidden'); msgDiv.className = "text-xs text-center font-medium p-2 rounded-lg bg-emerald-100 text-emerald-700 mb-2"; msgDiv.innerHTML = "✅ Senha redefinida!";
+            setTimeout(() => closeResetModal(), 1500);
         }
 
-        // Login com animação de erro
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const user = document.getElementById('username').value.trim().toLowerCase();
             const pass = document.getElementById('password').value;
-            if (registeredUsers[user]) {
-                if (registeredUsers[user] === pass) startSession(user);
-                else {
-                    errorContainer.classList.remove('hidden');
-                    const errorP = errorContainer.querySelector('p');
-                    errorP.classList.add('shake-error');
-                    setTimeout(() => errorP.classList.remove('shake-error'), 500);
-                }
-            } else {
-                registeredUsers[user] = pass;
-                localStorage.setItem('finance_auth_db', JSON.stringify(registeredUsers));
-                startSession(user);
-            }
+            if (registeredUsers[user]) { if (registeredUsers[user] === pass) startSession(user); else { errorContainer.classList.remove('hidden'); const errorP = errorContainer.querySelector('p'); errorP.classList.add('shake-error'); setTimeout(() => errorP.classList.remove('shake-error'), 500); } } 
+            else { registeredUsers[user] = pass; localStorage.setItem('finance_auth_db', JSON.stringify(registeredUsers)); startSession(user); }
         });
 
-        function startSession(user) {
-            sessionStorage.setItem('active_session', user);
-            checkAuth();
-        }
-
-        function checkAuth() {
-            const activeUser = sessionStorage.getItem('active_session');
-            if (activeUser) {
-                loginScreen.classList.add('hidden');
-                appContent.classList.remove('hidden');
-                document.getElementById('user-display-name').innerText = activeUser;
-                updateUI();
-                showMonthlySummary();
-            } else {
-                loginScreen.classList.remove('hidden');
-                appContent.classList.add('hidden');
-            }
-        }
-
+        function startSession(user) { sessionStorage.setItem('active_session', user); checkAuth(); }
+        function checkAuth() { const activeUser = sessionStorage.getItem('active_session'); if (activeUser) { loginScreen.classList.add('hidden'); appContent.classList.remove('hidden'); document.getElementById('user-display-name').innerText = activeUser; updateUI(); showMonthlySummary(); } else { loginScreen.classList.remove('hidden'); appContent.classList.add('hidden'); } }
         window.logout = function() { sessionStorage.removeItem('active_session'); checkAuth(); }
-
-        function setType(type) {
-            currentType = type;
-            const btnInc = document.getElementById('type-income');
-            const btnExp = document.getElementById('type-expense');
-            if (type === 'income') {
-                btnInc.className = 'flex-1 py-3 rounded-xl text-sm font-bold transition-all tab-income-active flex items-center justify-center gap-2';
-                btnExp.className = 'flex-1 py-3 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 text-slate-500';
-                submitBtn.innerHTML = '<i class="ri-check-line"></i> Confirmar Entrada';
-                submitBtn.className = 'w-full font-bold py-3.5 rounded-xl bg-emerald-500 text-white shadow-md active:scale-95 transition-all hover:bg-emerald-600';
-            } else {
-                btnExp.className = 'flex-1 py-3 rounded-xl text-sm font-bold transition-all tab-expense-active flex items-center justify-center gap-2';
-                btnInc.className = 'flex-1 py-3 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 text-slate-500';
-                submitBtn.innerHTML = '<i class="ri-warning-line"></i> Confirmar Saída';
-                submitBtn.className = 'w-full font-bold py-3.5 rounded-xl bg-rose-500 text-white shadow-md active:scale-95 transition-all hover:bg-rose-600';
-            }
-        }
-
-        window.saveGoal = function() {
-            monthlyGoal = parseFloat(document.getElementById('budget-goal').value) || 0;
-            localStorage.setItem('finance_goal', monthlyGoal);
-            updateUI();
-            const msg = document.createElement('div');
-            msg.innerText = "✅ Meta atualizada!";
-            msg.className = "fixed bottom-24 right-6 bg-emerald-500 text-white text-xs px-4 py-2 rounded-full shadow-lg animate-pop z-50";
-            document.body.appendChild(msg);
-            setTimeout(() => msg.remove(), 2000);
-        }
-
+        function setType(type) { currentType = type; const btnInc = document.getElementById('type-income'); const btnExp = document.getElementById('type-expense'); if (type === 'income') { btnInc.className = 'flex-1 py-3 rounded-xl text-sm font-bold transition-all tab-income-active flex items-center justify-center gap-2'; btnExp.className = 'flex-1 py-3 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 text-slate-500'; submitBtn.innerHTML = '<i class="ri-check-line"></i> Confirmar Entrada'; submitBtn.className = 'w-full font-bold py-3.5 rounded-xl bg-emerald-500 text-white shadow-md active:scale-95 transition-all hover:bg-emerald-600'; } else { btnExp.className = 'flex-1 py-3 rounded-xl text-sm font-bold transition-all tab-expense-active flex items-center justify-center gap-2'; btnInc.className = 'flex-1 py-3 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 text-slate-500'; submitBtn.innerHTML = '<i class="ri-warning-line"></i> Confirmar Saída'; submitBtn.className = 'w-full font-bold py-3.5 rounded-xl bg-rose-500 text-white shadow-md active:scale-95 transition-all hover:bg-rose-600'; } }
+        window.saveGoal = function() { monthlyGoal = parseFloat(document.getElementById('budget-goal').value) || 0; localStorage.setItem('finance_goal', monthlyGoal); updateUI(); const toast = document.createElement('div'); toast.innerText = "✅ Meta atualizada!"; toast.className = "fixed bottom-24 right-6 bg-emerald-500 text-white text-xs px-4 py-2 rounded-full shadow-lg animate-pop z-50"; document.body.appendChild(toast); setTimeout(() => toast.remove(), 2000); }
         function formatCurrency(v) { return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
-
-        function updateUI() {
-            const total = transactions.reduce((acc, t) => acc + t.amount, 0);
-            const totalIn = transactions.filter(t => t.amount > 0).reduce((a, b) => a + b.amount, 0);
-            const totalOut = transactions.filter(t => t.amount < 0).reduce((a, b) => a + Math.abs(b.amount), 0);
-            balanceEl.innerText = formatCurrency(total);
-            incomeEl.innerText = formatCurrency(totalIn);
-            expenseEl.innerText = formatCurrency(totalOut);
-            const goalBar = document.getElementById('goal-bar');
-            const goalPercentText = document.getElementById('goal-percent');
-            const goalMsg = document.getElementById('goal-message');
-            if (monthlyGoal > 0) {
-                let percent = (totalOut / monthlyGoal) * 100;
-                goalPercentText.innerText = Math.round(percent) + "%";
-                goalBar.style.width = Math.min(percent, 100) + "%";
-                if (percent >= 100) { goalBar.className = "bg-rose-500 h-full transition-all duration-700"; goalMsg.innerText = "⚠️ Meta excedida!"; }
-                else if (percent > 80) { goalBar.className = "bg-amber-500 h-full transition-all duration-700"; goalMsg.innerText = "Atenção ao limite."; }
-                else { goalBar.className = "bg-indigo-500 h-full transition-all duration-700"; goalMsg.innerText = "Tudo sob controle. 💪"; }
-            } else { goalBar.style.width = "0%"; goalPercentText.innerText = "0%"; }
-            renderHistory();
-            localStorage.setItem('finance_v2', JSON.stringify(transactions));
-        }
-
-        function renderHistory() {
-            let filtered = [...transactions];
-            if (currentFilter === 'income') filtered = filtered.filter(t => t.amount > 0);
-            else if (currentFilter === 'expense') filtered = filtered.filter(t => t.amount < 0);
-            historyList.innerHTML = '';
-            if (filtered.length === 0) {
-                historyList.innerHTML = `<div class="text-center py-10 text-slate-400 text-sm">Nenhum registro.</div>`;
-                return;
-            }
-            [...filtered].reverse().forEach((t) => {
-                const isIncome = t.amount > 0;
-                const li = document.createElement('li');
-                li.className = 'flex justify-between items-center p-4 group hover:bg-white/10 transition-all';
-                li.innerHTML = `<div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full ${isIncome ? 'bg-emerald-100 text-emerald-600' : 'bg-rose-100 text-rose-600'} flex items-center justify-center"><i class="${isIncome ? 'ri-add-line' : 'ri-subtract-line'}"></i></div><div><p class="text-sm font-bold">${t.desc}</p><p class="text-[10px] text-slate-400">${t.date}</p></div></div><span class="text-sm font-extrabold ${isIncome ? 'text-emerald-600' : 'text-rose-600'}">${formatCurrency(t.amount)}</span>`;
-                historyList.appendChild(li);
-            });
-        }
-
-        window.filterTransactions = function(type) {
-            currentFilter = type;
-            const btns = ['all', 'inc', 'exp'];
-            btns.forEach(b => document.getElementById(`filter-${b}`).className = 'text-xs px-3 py-1.5 rounded-full bg-slate-100 text-slate-600 font-semibold transition-all');
-            const activeMap = {all: 'all', income: 'inc', expense: 'exp'};
-            document.getElementById(`filter-${activeMap[type]}`).className = 'text-xs px-3 py-1.5 rounded-full bg-indigo-100 text-indigo-700 font-semibold transition-all shadow-sm';
-            renderHistory();
-        }
-
-        financeForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            let amount = parseFloat(document.getElementById('amount').value);
-            let desc = document.getElementById('desc').value;
-            if (currentType === 'expense') amount = -amount;
-            transactions.push({ desc, amount, date: new Date().toLocaleDateString('pt-BR') });
-            updateUI();
-            financeForm.reset();
-        });
-
-        function showMonthlySummary() {
-            const totalOut = transactions.filter(t => t.amount < 0).reduce((a, b) => a + Math.abs(b.amount), 0);
-            if (monthlyGoal <= 0 || transactions.length === 0) return;
-            const modal = document.getElementById('summary-modal');
-            modal.classList.remove('hidden');
-            const isSafe = totalOut <= monthlyGoal;
-            document.getElementById('summary-icon').innerHTML = isSafe ? '<i class="ri-trophy-line"></i>' : '<i class="ri-alarm-warning-line"></i>';
-            document.getElementById('summary-icon').className = `w-20 h-20 mx-auto rounded-full flex items-center justify-center text-4xl mb-4 ${isSafe ? 'bg-emerald-500' : 'bg-rose-500'} text-white`;
-            document.getElementById('summary-title').innerText = isSafe ? 'Excelente!' : 'Meta Excedida';
-            document.getElementById('summary-text').innerText = isSafe ? `Você gastou ${formatCurrency(totalOut)}, ficando dentro da sua meta.` : `Você gastou ${formatCurrency(totalOut)}, o que ultrapassa os ${formatCurrency(monthlyGoal)} definidos.`;
-        }
+        function updateUI() { const total = transactions.reduce((acc, t) => acc + t.amount, 0); const totalIn = transactions.filter(t => t.amount > 0).reduce((a, b) => a + b.amount, 0); const totalOut = transactions.filter(t => t.amount < 0).reduce((a, b) => a + Math.abs(b.amount), 0); balanceEl.innerText = formatCurrency(total); incomeEl.innerText = formatCurrency(totalIn); expenseEl.innerText = formatCurrency(totalOut); const goalBar = document.getElementById('goal-bar'); const goalPercentText = document.getElementById('goal-percent'); const goalMsg = document.getElementById('goal-message'); if (monthlyGoal > 0) { let percent = (totalOut / monthlyGoal) * 100; goalPercentText.innerText = Math.round(percent) + "%"; goalBar.style.width = Math.min(percent, 100) + "%"; if (percent >= 100) { goalBar.className = "bg-rose-500 h-full transition-all duration-700"; goalMsg.innerText = "⚠️ Meta excedida!"; } else if (percent > 80) { goalBar.className = "bg-amber-500 h-full transition-all duration-700"; goalMsg.innerText = "Atenção ao limite."; } else { goalBar.className = "bg-indigo-500 h-full transition-all duration-700"; goalMsg.innerText = "Tudo sob controle. 💪"; } } else { goalBar.style.width = "0%"; goalPercentText.innerText = "0%"; } renderHistory(); localStorage.setItem('finance_v2', JSON.stringify(transactions)); }
+        function renderHistory() { let filtered = [...transactions]; if (currentFilter === 'income') filtered = filtered.filter(t => t.amount > 0); else if (currentFilter === 'expense') filtered = filtered.filter(t => t.amount < 0); historyList.innerHTML = ''; if (filtered.length === 0) { historyList.innerHTML = `<div class="text-center py-10 text-slate-400 text-sm">Nenhum registro.</div>`; return; } [...filtered].reverse().forEach((t) => { const isIncome = t.amount > 0; const li = document.createElement('li'); li.className = 'flex justify-between items-center p-4 group hover:bg-white/10 transition-all'; li.innerHTML = `<div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full ${isIncome ? 'bg-emerald-100 text-emerald-600' : 'bg-rose-100 text-rose-600'} flex items-center justify-center"><i class="${isIncome ? 'ri-add-line' : 'ri-subtract-line'}"></i></div><div><p class="text-sm font-bold">${t.desc}</p><p class="text-[10px] text-slate-400">${t.date}</p></div></div><span class="text-sm font-extrabold ${isIncome ? 'text-emerald-600' : 'text-rose-600'}">${formatCurrency(t.amount)}</span>`; historyList.appendChild(li); }); }
+        window.filterTransactions = function(type) { currentFilter = type; const btns = ['all', 'inc', 'exp']; btns.forEach(b => document.getElementById(`filter-${b}`).className = 'text-xs px-3 py-1.5 rounded-full bg-slate-100 text-slate-600 font-semibold transition-all'); const activeMap = {all: 'all', income: 'inc', expense: 'exp'}; document.getElementById(`filter-${activeMap[type]}`).className = 'text-xs px-3 py-1.5 rounded-full bg-indigo-100 text-indigo-700 font-semibold transition-all shadow-sm'; renderHistory(); }
+        financeForm.addEventListener('submit', (e) => { e.preventDefault(); let amount = parseFloat(document.getElementById('amount').value); let desc = document.getElementById('desc').value; if (currentType === 'expense') amount = -amount; transactions.push({ desc, amount, date: new Date().toLocaleDateString('pt-BR') }); updateUI(); financeForm.reset(); });
+        function showMonthlySummary() { const totalOut = transactions.filter(t => t.amount < 0).reduce((a, b) => a + Math.abs(b.amount), 0); if (monthlyGoal <= 0 || transactions.length === 0) return; const modal = document.getElementById('summary-modal'); modal.classList.remove('hidden'); const isSafe = totalOut <= monthlyGoal; document.getElementById('summary-icon').innerHTML = isSafe ? '<i class="ri-trophy-line"></i>' : '<i class="ri-alarm-warning-line"></i>'; document.getElementById('summary-icon').className = `w-20 h-20 mx-auto rounded-full flex items-center justify-center text-4xl mb-4 ${isSafe ? 'bg-emerald-500' : 'bg-rose-500'} text-white`; document.getElementById('summary-title').innerText = isSafe ? 'Excelente!' : 'Meta Excedida'; document.getElementById('summary-text').innerText = isSafe ? `Você gastou ${formatCurrency(totalOut)}, ficando dentro da sua meta.` : `Você gastou ${formatCurrency(totalOut)}, o que ultrapassa os ${formatCurrency(monthlyGoal)} definidos.`; }
         window.closeSummary = function() { document.getElementById('summary-modal').classList.add('hidden'); }
         window.clearData = function() { if(confirm("Limpar extrato?")) { transactions = []; updateUI(); } }
-        window.copyPix = function() { navigator.clipboard.writeText(PIX_CODE); alert("Pix copiado!"); }
 
-        // Bot
         window.toggleBot = function() { document.getElementById('bot-window').classList.toggle('hidden'); }
-        function addBotMessage(text, type = 'bot') {
-            const messages = document.getElementById('bot-messages');
-            const msg = document.createElement('div');
-            msg.className = type === 'bot' ? 'bg-indigo-100 text-indigo-800 p-3 rounded-2xl text-sm max-w-[85%]' : 'bg-emerald-500 text-white p-3 rounded-2xl text-sm max-w-[85%] ml-auto';
-            msg.innerHTML = text;
-            messages.appendChild(msg);
-            messages.scrollTop = messages.scrollHeight;
-        }
-        window.sendBotMessage = function() {
-            const input = document.getElementById('bot-input');
-            const text = input.value.trim();
-            if (!text) return;
-            addBotMessage(text, 'user');
-            input.value = '';
-            setTimeout(() => {
-                const t = text.toLowerCase();
-                if (t.includes('saldo') || t.includes('dinheiro')) addBotMessage('💰 O saldo disponível fica no topo do app.');
-                else if (t.includes('meta') || t.includes('gasto')) addBotMessage('🎯 Você define uma meta de gastos na seção específica.');
-                else if (t.includes('extrato') || t.includes('histórico')) addBotMessage('📄 O extrato mostra todas as movimentações.');
-                else if (t.includes('dark') || t.includes('modo escuro')) addBotMessage('🌙 Clique no ícone da lua no topo para alternar.');
-                else if (t.includes('pix')) addBotMessage('💙 Apoie via Pix com QR Code na lateral.');
-                else if (t.includes('senha') || t.includes('login')) addBotMessage('🔐 Use a opção "Esqueceu sua senha" para redefinir.');
-                else addBotMessage('🤖 Pergunte sobre saldo, meta, extrato, Pix, dark mode ou senha.');
-            }, 400);
-        }
+        window.quickQuestion = function(topic) { let q = ""; if(topic === 'saldo') q = "Qual meu saldo?"; else if(topic === 'meta') q = "Como funciona a meta de gastos?"; else if(topic === 'extrato') q = "Me mostre o extrato"; else if(topic === 'dark') q = "Como ativar o modo escuro?"; document.getElementById('bot-input').value = q; sendBotMessage(); }
+        function addBotMessage(text, type = 'bot') { const messages = document.getElementById('bot-messages'); const div = document.createElement('div'); div.className = `flex gap-2 items-start mb-3 ${type === 'user' ? 'flex-row-reverse' : ''}`; const icon = type === 'bot' ? '<div class="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white flex-shrink-0 mt-0.5 shadow-md"><i class="ri-robot-2-line text-sm"></i></div>' : '<div class="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white flex-shrink-0 mt-0.5 shadow-md"><i class="ri-user-line text-sm"></i></div>'; const bubbleClass = type === 'bot' ? 'bot-message-bot p-3 text-sm max-w-[85%] shadow-sm' : 'bot-message-user p-3 text-sm max-w-[85%] shadow-sm text-white'; div.innerHTML = `${icon}<div class="${bubbleClass}">${text}</div>`; messages.appendChild(div); messages.scrollTop = messages.scrollHeight; }
+        window.sendBotMessage = function() { const input = document.getElementById('bot-input'); const text = input.value.trim(); if (!text) return; addBotMessage(text, 'user'); input.value = ''; setTimeout(() => { const t = text.toLowerCase(); if (t.includes('saldo') || t.includes('dinheiro')) addBotMessage('💰 Seu saldo atual está no card principal do dashboard. Ele é calculado automaticamente com base em todas as suas entradas e saídas.'); else if (t.includes('meta') || t.includes('gasto')) addBotMessage('🎯 Você pode definir uma meta de gastos mensal na seção abaixo dos cards. O progresso é atualizado em tempo real e mostra um alerta quando ultrapassa 80% do limite.'); else if (t.includes('extrato') || t.includes('histórico')) addBotMessage('📄 O extrato mostra todas as suas movimentações financeiras. Use os botões "Entradas", "Saídas" ou "Todos" para filtrar por tipo de transação.'); else if (t.includes('dark') || t.includes('modo escuro') || t.includes('noturno')) addBotMessage('🌙 O modo escuro pode ser ativado clicando no ícone da lua no canto superior direito do aplicativo. A mudança é instantânea e salva automaticamente.'); else if (t.includes('login') || t.includes('senha') || t.includes('acesso')) addBotMessage('🔐 Na tela de login, você pode redefinir sua senha clicando em "Esqueceu sua senha?". Basta informar o usuário e a nova senha.'); else addBotMessage('🤖 Estou aqui para ajudar! Pergunte sobre: saldo, metas, extrato, modo escuro ou redefinição de senha.'); }, 400); }
         document.addEventListener('keydown', (e) => { if (e.key === 'Enter' && document.activeElement.id === 'bot-input') sendBotMessage(); });
         checkAuth();
     </script>
